@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gestión de Granja Porcina</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f7f7f7;
+      color: #333;
+    }
+    header {
+      background-color: #3f51b5;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+    main {
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    h1, h2 {
+      color: #3f51b5;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 2rem;
+    }
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+    th, td {
+      padding: 0.75rem;
+      text-align: center;
+    }
+    input, select, button {
+      margin: 0.5rem 0;
+      padding: 0.6rem;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    form {
+      margin-bottom: 2rem;
+    }
+    section {
+      margin-bottom: 3rem;
+    }
+    ul {
+      line-height: 1.8;
+    }
+    button {
+      background-color: #3f51b5;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #303f9f;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Gestión de Granja Porcina</h1>
+  </header>
+
+  <main>
+    <section>
+      <h2>1. Monitorización de Cerdos</h2>
+      <table id="pigTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Raza</th>
+            <th>Edad</th>
+            <th>Estado</th>
+            <th>Salud</th>
+            <th>Repitió IA</th>
+            <th>Nº Repeticiones</th>
+            <th>Ciclo Estral</th>
+            <th>Nacidos Vivos</th>
+            <th>Bajas (Muertos)</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <form onsubmit="addPig(event)">
+        <input type="text" id="id" placeholder="ID del cerdo" required />
+        <input type="text" id="raza" placeholder="Raza" required />
+        <input type="number" id="edad" placeholder="Edad en meses" required />
+        <select id="estado">
+          <option>Engorde</option>
+          <option>Gestante</option>
+          <option>Lactante</option>
+          <option>Vacía</option>
+        </select>
+        <select id="salud">
+          <option>Buena</option>
+          <option>Regular</option>
+          <option>Mala</option>
+        </select>
+        <select id="repitioIA">
+          <option>No</option>
+          <option>Sí</option>
+        </select>
+        <input type="number" id="numRepeticiones" placeholder="Número de repeticiones IA" min="0" />
+        <input type="text" id="cicloEstral" placeholder="Ciclo estral actual (ej: Día 12)" />
+        <input type="number" id="nacidosVivos" placeholder="Nacidos vivos" min="0" />
+        <input type="number" id="bajas" placeholder="Bajas (muertos)" min="0" />
+        <button type="submit">Añadir cerdo</button>
+      </form>
+    </section>
+
+    <section>
+      <h2>2. Pedido de Piensos</h2>
+      <form onsubmit="hacerPedido(event)">
+        <input type="text" id="nombreCliente" placeholder="Nombre del encargado" required />
+        <select id="tipoPienso">
+          <option value="Inicio">Inicio</option>
+          <option value="Crecimiento">Crecimiento</option>
+          <option value="Finalización">Finalización</option>
+          <option value="Gestación">Gestación</option>
+        </select>
+        <input type="number" id="cantidadKg" placeholder="Cantidad (kg)" required />
+        <button type="submit">Enviar pedido</button>
+      </form>
+      <p id="mensajePedido"></p>
+    </section>
+
+    <section>
+      <h2>3. Recomendaciones Generales</h2>
+      <ul>
+        <li>Revisar el estado corporal de las cerdas semanalmente.</li>
+        <li>Registrar todos los tratamientos sanitarios aplicados.</li>
+        <li>Controlar la ventilación en las naves, especialmente en verano.</li>
+        <li>Realizar revisiones ecográficas a los 28 días post-inseminación.</li>
+        <li>Evitar el estrés durante el manejo diario.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    function addPig(event) {
+      event.preventDefault();
+      const table = document.querySelector('#pigTable tbody');
+      const id = document.getElementById('id').value;
+      const raza = document.getElementById('raza').value;
+      const edad = document.getElementById('edad').value;
+      const estado = document.getElementById('estado').value;
+      const salud = document.getElementById('salud').value;
+      const repitioIA = document.getElementById('repitioIA').value;
+      const numRepeticiones = document.getElementById('numRepeticiones').value;
+      const cicloEstral = document.getElementById('cicloEstral').value;
+      const nacidosVivos = document.getElementById('nacidosVivos').value;
+      const bajas = document.getElementById('bajas').value;
+      const row = `<tr>
+        <td>${id}</td>
+        <td>${raza}</td>
+        <td>${edad}</td>
+        <td>${estado}</td>
+        <td>${salud}</td>
+        <td>${repitioIA}</td>
+        <td>${numRepeticiones}</td>
+        <td>${cicloEstral}</td>
+        <td>${nacidosVivos}</td>
+        <td>${bajas}</td>
+      </tr>`;
+      table.insertAdjacentHTML('beforeend', row);
+      event.target.reset();
+    }
+
+    function hacerPedido(event) {
+      event.preventDefault();
+      const nombre = document.getElementById('nombreCliente').value;
+      const tipo = document.getElementById('tipoPienso').value;
+      const cantidad = document.getElementById('cantidadKg').value;
+      const mensaje = `Pedido realizado: ${cantidad} kg de pienso para ${tipo}, solicitado por ${nombre}.`;
+      document.getElementById('mensajePedido').innerText = mensaje;
+    }
+  </script>
+</body>
+</html>
